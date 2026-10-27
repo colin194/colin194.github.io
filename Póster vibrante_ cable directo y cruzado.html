@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Póster: cable directo, cable cruzado y cómo montar el cruzado</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#12123A;--muted:#C3C8F2;--led:#2BD66B;--tech:#1763C8;
+ --head:'Bricolage Grotesque','Trebuchet MS',sans-serif;--body:'IBM Plex Sans','Segoe UI',Arial,sans-serif;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:#07071C;color:var(--ink);font:400 14px/1.45 var(--body)}
+:focus-visible{outline:3px solid var(--tech);outline-offset:3px;border-radius:12px}
+#wrap{margin:8px auto}
+.stage{position:relative;width:1000px;height:1160px;background:radial-gradient(circle at 85% 8%,#2B1A6B,#12123A 55%);color:#F3F4FF;border:2px solid #34388A;border-radius:28px;transform-origin:top left;overflow:hidden;box-shadow:0 14px 40px rgba(27,34,54,.22)}
+h1,h2,h3{font-family:var(--head);margin:0;line-height:1.05}
+.head{position:absolute;left:60px;top:44px;width:350px}
+.head h1{font-size:46px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(90deg,#FF5CA8,#FFC400);-webkit-background-clip:text;background-clip:text;color:transparent}
+.head p{margin:8px 0 0;font:600 18px var(--head);color:#FFE27A}
+.defs{position:absolute;left:420px;top:28px;width:550px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.df{border-radius:18px;padding:12px 16px;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.4)}
+.df h2{font-size:21px;margin-bottom:6px}
+.df dl{margin:0;display:grid;grid-template-columns:64px 1fr;gap:3px 8px;font-size:13px;line-height:1.3}
+.df dt{font-weight:800}.df dd{margin:0;font-weight:500}
+.pill2{display:inline-block;color:#fff;font-weight:600;border-radius:999px;padding:3px 14px;margin:0 6px 4px 0;font-size:13px}
+.tx{position:absolute;width:340px}
+.tx h3{font-size:25px;font-weight:800;margin-bottom:5px}
+.tx p{margin:0;color:var(--muted)}
+.tx.l{text-align:right}
+.mnum{display:none}
+.pill{position:absolute;width:310px;height:90px;border-radius:46px;border:0;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px 0 13px;cursor:pointer;text-align:left;font:500 13px/1.3 var(--body);box-shadow:0 10px 22px rgba(27,34,54,.25);transition:transform .3s,box-shadow .3s}
+.pill:hover,.pill:focus-visible{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 30px rgba(27,34,54,.35)}
+.pill b{display:block;font:800 16px var(--head);margin-bottom:2px}
+.code{position:relative;flex:none;width:66px;height:66px;background:#fff;border-radius:12px;padding:5px;overflow:hidden}
+.code svg{width:100%;height:100%;display:block}
+.code::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--tech);box-shadow:0 0 8px var(--tech);top:-4px;opacity:0}
+.pill:hover .code::after,.pill:focus-visible .code::after{opacity:1;animation:scan 1s linear infinite}
+@keyframes scan{to{top:100%}}
+.snake{position:absolute;inset:0;width:1000px;height:1160px;pointer-events:none}
+#path{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.8s cubic-bezier(.5,0,.2,1) .1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.nd{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.2,1.5,.4,1) forwards;animation-delay:var(--d)}
+@keyframes pop{to{opacity:1;transform:none}}
+.rev{opacity:0;transform:translateY(14px);animation:up .6s ease-out forwards;animation-delay:var(--d)}
+@keyframes up{to{opacity:1;transform:none}}
+.step{display:contents}
+.chips{display:grid;grid-template-columns:34px repeat(8,1fr);gap:3px;align-items:center;margin-top:6px;font:600 11px var(--body);text-align:left}
+.chip{height:16px;border-radius:4px;border:1px solid rgba(0,0,0,.35)}
+.chips .n{text-align:center;font-size:10px;color:var(--muted)}
+.leds{display:grid;grid-template-columns:42px repeat(8,22px);gap:4px;align-items:center;margin-top:8px;font-size:11px;color:var(--muted);justify-content:end}
+.led{width:22px;height:22px;border-radius:50%;background:#2D3170;display:grid;place-items:center;font:600 11px var(--body);color:#9AA3E0;transition:background .15s,box-shadow .15s}
+.led.on{background:var(--led);color:#06230f;box-shadow:0 0 9px var(--led)}
+.tb{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:8px}
+.tb button{font:700 13px var(--body);background:#FFD60A;color:#12123A;border:0;border-radius:999px;padding:6px 16px;cursor:pointer}
+.tb output{font-size:12px;color:var(--muted);max-width:200px;line-height:1.25}
+dialog{border:0;border-radius:24px;padding:0;background:transparent;max-width:92vw;overflow:visible}
+dialog::backdrop{background:rgba(5,15,28,.72)}
+dialog[open]{animation:dpop .35s cubic-bezier(.2,1.3,.4,1)}
+@keyframes dpop{from{transform:scale(.8) translateY(40px);opacity:0}}
+.phone{width:min(330px,88vw);background:#0b0f14;border-radius:38px;padding:14px;border:3px solid #2a3a4d;position:relative;font-size:14px}
+.screen{background:#1B2A8F;color:#fff;border-radius:26px;overflow:hidden;min-height:430px;display:flex;flex-direction:column}
+.scanning{flex:1;display:grid;place-items:center;background:#000}
+.frame{width:150px;height:150px;border:3px solid #fff;border-radius:16px;position:relative;overflow:hidden}
+.frame::after{content:"";position:absolute;left:0;right:0;height:3px;background:var(--led);box-shadow:0 0 12px var(--led);animation:scan 1s linear infinite}
+.media{flex:1;display:none;flex-direction:column}
+.dstage{flex:1;display:grid;place-items:center;padding:18px;text-align:center;background:linear-gradient(160deg,#D4145A,#1B2A8F)}
+.dstage img,.dstage video{max-width:100%;max-height:280px;border-radius:12px}
+.big{font:800 4.5rem var(--head);line-height:1}
+.pbar{height:6px;background:#2c3e52;margin:0 16px}.pbar i{display:block;height:100%;width:0;background:var(--led)}
+.playing .pbar i{animation:fill 6s linear forwards}
+@keyframes fill{to{width:100%}}
+.controls{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;gap:8px}
+.controls button,.up{font:600 .9rem var(--body);background:#fff;color:#0b2239;border:0;border-radius:999px;padding:8px 14px;cursor:pointer}
+.up input{display:none}
+.cap{padding:0 16px 16px;font-size:.92rem;color:#dbe4f3}
+.close{position:absolute;top:-14px;right:-14px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:#0b2239;font-size:1.3rem;cursor:pointer}
+@media (max-width:759px){
+ #wrap{width:auto!important;height:auto!important;margin:0}
+ .stage{width:auto;height:auto;transform:none!important;border-radius:0;padding:24px 18px 40px}
+ .snake{display:none}
+ .head,.defs,.tx,.pill{position:static;width:auto}
+ .head h1{font-size:40px}.defs{margin:14px 0 24px;grid-template-columns:1fr}
+ .step{display:block;border-left:6px solid var(--c);padding:0 0 26px 16px}
+ .tx,.tx.l{text-align:left}
+ .mnum{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--c);color:#fff;font:800 16px var(--head);margin-bottom:6px}
+ .pill{margin-top:12px;width:100%;max-width:340px}
+ .leds,.tb{justify-content:start}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}#path{stroke-dashoffset:0}.nd,.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="wrap"><main class="stage" id="stage">
+  <svg class="snake" id="snake" viewBox="0 0 1000 1160" aria-hidden="true"></svg>
+  <header class="head rev" style="--d:.1s"><h1>Cable de red</h1><p>Montaje del cable cruzado en 6 pasos</p></header>
+  <section class="defs rev" style="--d:.3s" aria-label="Definiciones de los dos tipos de cable">
+    <article class="df" style="background:linear-gradient(135deg,#FF6A00,#FF1F7A)"><h2>Cable directo</h2><dl><dt>Uso</dt><dd>Conecta aparatos diferentes</dd><dt>Ejemplo</dt><dd>Ordenador con switch</dd><dt>Extremos</dt><dd>Norma B + Norma B</dd></dl></article>
+    <article class="df" style="background:linear-gradient(135deg,#1E5BFF,#9B30FF)"><h2>Cable cruzado</h2><dl><dt>Uso</dt><dd>Conecta aparatos iguales</dd><dt>Ejemplo</dt><dd>Switch con switch</dd><dt>Extremos</dt><dd>Norma A + Norma B</dd></dl></article>
+  </section>
+</main></div>
+
+<dialog id="dlg" aria-label="Foto o vídeo del paso">
+  <div class="phone">
+    <button class="close" id="closeBtn" aria-label="Cerrar">✕</button>
+    <div class="screen" id="screen">
+      <div class="scanning" id="scanning"><div class="frame"></div></div>
+      <div class="media" id="media">
+        <div class="dstage" id="dstage"></div>
+        <div class="pbar"><i id="bar"></i></div>
+        <div class="controls"><button id="playBtn">▶ Reproducir</button><label class="up">Añadir mi foto o vídeo<input type="file" id="file" accept="image/*,video/*"></label></div>
+        <div class="cap" id="cap"></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s),NS='http://www.w3.org/2000/svg';
+const COL=['#FF1F7A','#E81FC0','#9B30FF','#4B4BFF','#1E78FF','#0A7FDC'],COLT=['#FF6FA8','#FF7FE0','#C79BFF','#97A0FF','#74B4FF','#5CD0FF'];
+const Cc={wo:['#fff','#F28C28'],o:['#F28C28'],wg:['#fff','#2E9E5B'],g:['#2E9E5B'],bl:['#1F6FEB'],wb:['#fff','#1F6FEB'],wm:['#fff','#8B5A2B'],m:['#8B5A2B']};
+const NA=['wg','g','wo','bl','wb','o','wm','m'],NB=['wo','o','wg','bl','wb','g','wm','m'];
+const bg=k=>{const c=Cc[k];return c.length>1?`repeating-linear-gradient(45deg,${c[0]} 0 4px,${c[1]} 4px 8px)`:c[0]};
+const strip=(n,a)=>`<div class="chips"><span>Norma ${n}</span>${a.map(k=>`<i class="chip" style="background:${bg(k)}"></i>`).join('')}</div>`;
+const nums='<div class="chips"><span></span>'+[1,2,3,4,5,6,7,8].map(i=>`<span class="n">${i}</span>`).join('')+'</div>';
+const leds=k=>[1,2,3,4,5,6,7,8].map(i=>`<span class="led" data-${k}="${i}">${i}</span>`).join('');
+const S=[
+ {t:'Prepara material y herramientas',p:'Cable UTP, conectores RJ-45, pelacables, crimpadora y tester. Todo a mano.',cap:'Todo el material sobre la mesa, ordenado.'},
+ {t:'Elige las normas de colores',p:'Un extremo en Norma A y el otro en Norma B. Así los hilos quedan cruzados.',x:nums+strip('A',NA)+strip('B',NB),cap:'Los dos órdenes de colores, A y B.'},
+ {t:'Pela la cubierta del cable',p:'Quita 2 o 3 cm de funda sin cortar los hilos de dentro.',cap:'La funda retirada y los 8 hilos a la vista.'},
+ {t:'Separa y ordena los hilos',p:'Destrenza los pares y colócalos en fila según la norma de ese extremo.',cap:'Los 8 hilos en fila, en el orden de la norma.'},
+ {t:'Corta e introduce en el RJ-45',p:'Iguala los hilos a 1,5 cm y empuja hasta el fondo, con la lengüeta hacia abajo.',cap:'Los hilos llegan hasta el fondo del conector.'},
+ {t:'Crimpa y comprueba con el tester',p:'Aprieta la crimpadora y repite en el otro extremo. Deben lucir las 8 luces.',x:`<div class="leds" aria-hidden="true"><span>Ext. 1</span>${leds('t')}<span>Ext. 2</span>${leds('r')}</div><div class="tb"><output id="res" aria-live="polite">El 1 con el 3 y el 2 con el 6.</output><button id="test">Probar</button></div>`,cap:'El tester con las luces del 1 al 8.'}
+];
+const Y=i=>235+i*160,X=i=>i%2?440:560;
+
+/* Serpiente */
+const svg=$('#snake');
+const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
+const defs=mk('defs',{});const g=mk('linearGradient',{id:'gr',gradientUnits:'userSpaceOnUse',x1:0,y1:190,x2:0,y2:1085},defs);
+COL.forEach((c,i)=>mk('stop',{offset:i/5,'stop-color':c},g));
+let d=`M${X(0)} ${Y(0)}`;for(let i=1;i<6;i++)d+=` C ${X(i-1)} ${Y(i-1)+90}, ${X(i)} ${Y(i)-90}, ${X(i)} ${Y(i)}`;
+mk('path',{id:'path',d,pathLength:1,fill:'none',stroke:'url(#gr)','stroke-width':92,'stroke-linecap':'round','stroke-linejoin':'round'});
+S.forEach((s,i)=>{const n=mk('g',{class:'nd',style:`--d:${.7+i*.28}s`});
+  mk('circle',{cx:X(i),cy:Y(i),r:38,fill:'#fff'},n);
+  const t=mk('text',{x:X(i),y:Y(i)+12,'text-anchor':'middle','font-size':34,'font-weight':800,fill:COL[i],'font-family':'Bricolage Grotesque,Trebuchet MS,sans-serif'},n);t.textContent='0'+(i+1)});
+
+/* Tarjetas */
+function qr(seed){let s=seed*9301+49297,r=()=>(s=(s*9301+49297)%233280)/233280,n=21,h='';
+  const E=[[0,0],[n-7,0],[0,n-7]],f=(x,y)=>E.some(([a,b])=>x>=a&&x<a+7&&y>=b&&y<b+7);
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(!f(x,y)&&r()>.5)h+=`<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  E.forEach(([a,b])=>h+=`<path fill-rule="evenodd" d="M${a} ${b}h7v7h-7zM${a+1} ${b+1}v5h5v-5zM${a+2} ${b+2}h3v3h-3z"/>`);
+  return `<svg viewBox="0 0 21 21" fill="#1B2236" shape-rendering="crispEdges" aria-hidden="true">${h}</svg>`}
+const st=$('#stage');
+S.forEach((s,i)=>{const right=i%2==0,dl=(.9+i*.28)+'s',w=document.createElement('div');w.className='step';w.style.setProperty('--c',COL[i]);
+  const tx=right?632:50,pl=right?170:520;
+  w.innerHTML=`<div class="tx rev ${right?'':'l'}" style="left:${tx}px;top:${Y(i)-50}px;--d:${dl}"><span class="mnum">${i+1}</span><h3 style="color:${COLT[i]}">${s.t}</h3><p${i==1?' id="p2"':''}>${s.p}</p>${s.x||''}</div>`+
+  `<button class="pill rev" data-i="${i}" style="left:${pl}px;top:${Y(i)-45}px;background:${COL[i]};--d:${dl}" aria-label="Ver foto o vídeo del paso ${i+1}"><span class="code">${qr(i+4)}</span><span><b>Paso ${i+1}</b>Escanea para ver la foto o el vídeo</span></button>`;
+  st.appendChild(w)});
+
+/* Ajuste a una sola vista */
+const wrap=$('#wrap');
+function fit(){if(innerWidth<760){wrap.style.width=wrap.style.height='';st.style.transform='';return}
+  const s=Math.min(1.5,(innerWidth-16)/1000,(innerHeight-16)/1160);st.style.transform=`scale(${s})`;wrap.style.width=1000*s+'px';wrap.style.height=1160*s+'px'}
+addEventListener('resize',fit);fit();
+
+/* Modal */
+const dlg=$('#dlg'),media=$('#media'),scan=$('#scanning'),ds=$('#dstage'),user={};let cur=0,tm;
+function show(i){const u=user[i];
+  ds.innerHTML=u?(u.type.startsWith('video')?`<video src="${u.url}" controls playsinline></video>`:`<img src="${u.url}" alt="Foto del paso ${i+1}">`):`<div><div class="big">${i+1}</div><p>${S[i].t}</p></div>`;
+  $('#cap').textContent=S[i].cap;$('#screen').classList.remove('playing');$('#playBtn').textContent='▶ Reproducir'}
+document.querySelectorAll('.pill').forEach(b=>b.onclick=()=>{cur=+b.dataset.i;media.style.display='none';scan.style.display='grid';dlg.showModal();clearTimeout(tm);tm=setTimeout(()=>{scan.style.display='none';media.style.display='flex';show(cur)},1300)});
+$('#playBtn').onclick=()=>{const p=$('#screen').classList.toggle('playing');$('#playBtn').textContent=p?'⏸ Pausa':'▶ Reproducir';const v=ds.querySelector('video');if(v)p?v.play():v.pause();if(p){const b=$('#bar');b.style.animation='none';b.offsetWidth;b.style.animation=''}};
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;user[cur]={url:URL.createObjectURL(f),type:f.type};show(cur)};
+$('#closeBtn').onclick=()=>dlg.close();
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});dlg.addEventListener('close',()=>clearTimeout(tm));
+
+/* Tester (cable cruzado: 1↔3 y 2↔6) */
+const T=[...document.querySelectorAll('[data-t]')],R2=[...document.querySelectorAll('[data-r]')],M=[3,6,1,4,5,2,7,8];let busy=false;
+$('#test').onclick=async()=>{if(busy)return;busy=true;const w=ms=>new Promise(r=>setTimeout(r,ms));
+  T.concat(R2).forEach(l=>l.classList.remove('on'));$('#res').textContent='Probando…';
+  for(let i=0;i<8;i++){T[i].classList.add('on');R2[M[i]-1].classList.add('on');await w(420);T[i].classList.remove('on');R2[M[i]-1].classList.remove('on')}
+  T.concat(R2).forEach(l=>l.classList.add('on'));$('#res').textContent='Las 8 luces funcionan: cable cruzado correcto.';busy=false};
+</script>
+</body>
+</html>
